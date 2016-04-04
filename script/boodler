@@ -20,17 +20,16 @@ import optparse
 import logging
 import traceback
 import StringIO
-from os.path import expanduser
 
 # same as in boodle-mgr
 platform = sys.platform.lower()
 
 if ('win32' in platform):
-    Default_Relative_Data_Dir = '~/Boodler'
+    Default_Relative_Data_Dir = 'Boodler'
 elif ('darwin' in platform):
-    Default_Relative_Data_Dir = '~/Library/Application Support/Boodler'
+    Default_Relative_Data_Dir = 'Library/Application Support/Boodler'
 else:
-    Default_Relative_Data_Dir = '~/.boodler'
+    Default_Relative_Data_Dir = '.boodler'
 
 defaultdriver = 'portaudio'
 if (sys.platform == 'darwin'):
@@ -145,7 +144,7 @@ basedir = opts.basedir
 if (not basedir):
     basedir = os.environ.get('BOODLER_DATA')
 if (not basedir):
-    basedir = expanduser(Default_Relative_Data_Dir)
+    basedir = os.path.join(os.path.expanduser('~'), Default_Relative_Data_Dir)
 
 coldir = opts.collection
 if (not coldir):

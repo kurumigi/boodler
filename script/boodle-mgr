@@ -16,7 +16,6 @@
 import sys
 import os
 from optparse import OptionParser
-from os.path import expanduser
 
 from booman import frame
 
@@ -24,11 +23,11 @@ from booman import frame
 platform = sys.platform.lower()
 
 if ('win32' in platform):
-    Default_Relative_Data_Dir = '~/Boodler'
+    Default_Relative_Data_Dir = 'Boodler'
 elif ('darwin' in platform):
-    Default_Relative_Data_Dir = '~/Library/Application Support/Boodler'
+    Default_Relative_Data_Dir = 'Library/Application Support/Boodler'
 else:
-    Default_Relative_Data_Dir = '~/.boodler'
+    Default_Relative_Data_Dir = '.boodler'
 
 parser = OptionParser(usage='usage: %prog [ options ] [ command... ]',
     description='Type "%prog help" for a list of commands, or "%prog" by itself for interactive mode.')
@@ -54,7 +53,7 @@ basedir = options.basedir
 if (not basedir):
     basedir = os.environ.get('BOODLER_DATA')
 if (not basedir):
-    basedir = expanduser(Default_Relative_Data_Dir)
+    basedir = os.path.join(os.path.expanduser('~'), Default_Relative_Data_Dir)
 
 coldir = options.collection
 if (not coldir):
