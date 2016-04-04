@@ -21,7 +21,11 @@ from os.path import expanduser
 from booman import frame
 
 # same as in boodler
-if ('darwin' in sys.platform.lower()):
+platform = sys.platform.lower()
+
+if ('win32' in platform):
+    Default_Relative_Data_Dir = '~/Boodler'
+elif ('darwin' in platform):
     Default_Relative_Data_Dir = '~/Library/Application Support/Boodler'
 else:
     Default_Relative_Data_Dir = '~/.boodler'
