@@ -8,7 +8,6 @@
 
 import sys
 import os
-import os.path
 import re
 from setuptools import setup, Extension, Command
 from distutils.command.build_ext import build_ext
@@ -186,7 +185,8 @@ all_extensions = [
     ),
 
     BooExtension('portaudio',
-        libraries = ['portaudio']
+        libraries = ['portaudio'],
+        available = check_header_available('portaudio/portaudio.h'),
     ),
 ]
 
