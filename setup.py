@@ -12,8 +12,10 @@ import re
 from setuptools import setup, Extension, Command
 from distutils.command.build_ext import build_ext
 from distutils.command.build_scripts import build_scripts
+from distutils.command.install_scripts import install_scripts
 from distutils.errors import *
 from distutils.util import convert_path
+from distutils.file_util import move_file
 import distutils.log
 
 def append_if(cond, list1, list2):
@@ -329,6 +331,19 @@ class local_build_scripts(build_scripts):
                 except IOError:
                     pass
 
+class local_install_scripts(install_scripts):
+    """local_install_scripts: A customization of the distutils
+    install_scripts command.
+    """
+
+    # HACK: Ugly code!
+    def run(self):
+        install_scripts.run(self)
+        if (sys.platform == 'win32'):
+            distutils.log.info('adding extension to scripts')
+            for script in self.get_outputs():
+                move_file(script, script + '.py')
+
 class local_generate_source(Command):
     """local_generate_source: A special command to generate cboodle-*.c
     source files.
@@ -596,6 +611,7 @@ to arbitrary levels of complexity, or write your own.
     cmdclass = {
         'build_ext': local_build_ext,
         'build_scripts': local_build_scripts,
+        'install_scripts': local_install_scripts,
         'generate_source': local_generate_source,
         'generate_pydoc': local_generate_pydoc,
     },
